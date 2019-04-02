@@ -3,6 +3,8 @@
           package="jahyun.example.pictureclient">
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
             android:allowBackup="true"
@@ -11,8 +13,17 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <service
+                android:name=".mode.auto.SendAutoItemService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
+
+        <activity android:name=".mode.auto.SendAutoItemActivity">
+        </activity>
+        <activity
+                android:name=".MainActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".LogoActivity"

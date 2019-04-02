@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_logo.*
 
 class LogoActivity : AppCompatActivity() {
     private lateinit var mWifiManager: WifiManager
+    private var mWifiStateHandler: WifiStateHandler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,10 @@ class LogoActivity : AppCompatActivity() {
 
         mWifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         mWifiManager.isWifiEnabled = true
+
+        mWifiStateHandler = WifiStateHandler()
+
+        WifiStateThread().start()
     }
 
     private inner class WifiStateThread : Thread() {

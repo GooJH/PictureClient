@@ -3,6 +3,8 @@ package jahyun.example.pictureclient
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.net.wifi.WifiManager
 import android.os.Bundle
@@ -11,6 +13,7 @@ import android.os.Message
 import android.support.v7.app.AppCompatActivity
 import android.text.format.Formatter
 import android.util.Log
+import jahyun.example.pictureclient.mode.auto.SendAutoItemActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -28,11 +31,12 @@ class MainActivity : AppCompatActivity() {
     internal var mSharedData = SharedData.instance
     private var mDialog: AlertDialog? = null
     private var mSearchDialogHandler: SearchDialogHandler? = null
+    private var mSelectedModeIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mIpAddress?: setIp()
+        mIpAddress ?: setIp()
         mSharedData.isConnected = false
         mSearchDialogHandler = SearchDialogHandler()
         ProcessTask(1, 50).start()
@@ -45,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        mIpAddress?: setIp()
+        mIpAddress ?: setIp()
         if (!mSharedData.isConnected) {
             mPCs.remove(mServerIP)
         }
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         SharedData.instance.selectedModeFileCount = 0
         SharedData.instance.selectedModeTotalFileCount = 0
     }
-    
+
     private inner class ProcessTask(var start: Int, var end: Int) : Thread() {
         override fun run() {
             var serverSocket: ServerSocket? = null
@@ -187,8 +191,7 @@ class MainActivity : AppCompatActivity() {
         val pcList = mPCs.toTypedArray<CharSequence>()
         val alt_bld = AlertDialog.Builder(this)
         alt_bld.setTitle("PC를 선택해주세요.")
-        alt_bld.setSingleChoiceItems(pcList, -1) {
-            dialog, item ->
+        alt_bld.setSingleChoiceItems(pcList, -1) { dialog, item ->
             connect_state.text = "연결 완료!!"
             select_picture.isClickable = true
             select_picture.setTextColor(Color.BLACK)
@@ -200,7 +203,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectMode() {
-        // To do something
+        val modes = arrayOf<CharSequence>("전체", "선택")
+        val alt_bld = AlertDialog.Builder(this)
+        alt_bld.setTitle("전송할 방법을 선택해주세요.")
+        alt_bld.setSingleChoiceItems(modes, 0, object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                mSelectedModeIndex = which
+            }
+        }).setPositiveButton("확인", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                if (mSelectedModeIndex == 0) {
+                    val intent = Intent()
+                    intent.setClass(applicationContext, SendAutoItemActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        })
+        val alert = alt_bld.create()
+        alert.show()
     }
 
     internal inner class SearchDialogHandler : Handler() {

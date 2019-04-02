@@ -17,7 +17,7 @@ class SharedData {
 
     var threadCount: Int = 0
 
-    var selectedImageList = ArrayList<SelectedImageData>()
+//    var selectedImageList = ArrayList<SelectedImageData>()
 
     companion object {
         val instance = SharedData()
