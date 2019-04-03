@@ -1,6 +1,7 @@
 package jahyun.example.pictureclient
 
 import android.content.Intent
+import jahyun.example.pictureclient.mode.selected.SelectedImageData
 
 class SharedData {
     val allModeSenderIntent = Intent()
@@ -17,7 +18,7 @@ class SharedData {
 
     var threadCount: Int = 0
 
-//    var selectedImageList = ArrayList<SelectedImageData>()
+    var selectedImageList = ArrayList<SelectedImageData>()
 
     companion object {
         val instance = SharedData()

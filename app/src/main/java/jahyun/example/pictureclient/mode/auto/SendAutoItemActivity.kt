@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat
 import jahyun.example.pictureclient.Constants
 import jahyun.example.pictureclient.R
 import jahyun.example.pictureclient.SharedData
+import jahyun.example.pictureclient.progress.ProgressActivity
+import jahyun.example.pictureclient.progress.ProgressNotificationService
 
 class SendAutoItemActivity : AppCompatActivity() {
 
@@ -123,6 +125,15 @@ class SendAutoItemActivity : AppCompatActivity() {
         mSharedData.allModeSenderIntent.putExtra(Constants.SERVER_IP, mServerIP)
         mSharedData.allModeSenderIntent.setClass(this, SendAutoItemService::class.java)
         startService(mSharedData.allModeSenderIntent)
+
+        mSharedData.allModeProgressServiceIntent.putExtra(Constants.MODE, Constants.MODE_ALL)
+        mSharedData.allModeProgressServiceIntent.setClass(this, ProgressNotificationService::class.java)
+        startService(mSharedData.allModeProgressServiceIntent)
+
+        mProgressIntent = Intent()
+        mProgressIntent.putExtra(Constants.MODE, Constants.MODE_ALL)
+        mProgressIntent.setClass(this, ProgressActivity::class.java)
+        startActivity(mProgressIntent)
     }
 
     // 마지막 동기화 날짜와 전송할 사진의 날짜 비교

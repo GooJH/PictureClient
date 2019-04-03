@@ -155,7 +155,7 @@ class SendAutoItemService : Service() {
                     fis?.close()
                     sock.close()
                     if (mIsStop) {
-                        break;
+                        break
                     }
                 }
                 Log.d(Constants.TAG, "파일 전송 완료")

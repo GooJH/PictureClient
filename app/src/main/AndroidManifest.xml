@@ -14,12 +14,34 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <service
+                android:name=".progress.ProgressNotificationService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
+
+        <activity android:name=".progress.ProgressActivity">
+        </activity>
+
+        <service
+                android:name=".mode.selected.SendSelectedItemService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
+
+        <activity
+                android:name=".mode.selected.SendSelectedItemActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <service
                 android:name=".mode.auto.SendAutoItemService"
                 android:enabled="true"
                 android:exported="true">
         </service>
 
-        <activity android:name=".mode.auto.SendAutoItemActivity">
+        <activity
+                android:name=".mode.auto.SendAutoItemActivity"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".MainActivity"

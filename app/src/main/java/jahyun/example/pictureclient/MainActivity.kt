@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.format.Formatter
 import android.util.Log
 import jahyun.example.pictureclient.mode.auto.SendAutoItemActivity
+import jahyun.example.pictureclient.mode.selected.SendSelectedItemActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -203,7 +204,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectMode() {
-        val modes = arrayOf<CharSequence>("전체", "선택")
+        val modes = arrayOf<CharSequence>("자동", "선택")
         val alt_bld = AlertDialog.Builder(this)
         alt_bld.setTitle("전송할 방법을 선택해주세요.")
         alt_bld.setSingleChoiceItems(modes, 0, object : DialogInterface.OnClickListener {
@@ -215,6 +216,11 @@ class MainActivity : AppCompatActivity() {
                 if (mSelectedModeIndex == 0) {
                     val intent = Intent()
                     intent.setClass(applicationContext, SendAutoItemActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent()
+                    intent.putExtra(Constants.IP, mServerIP)
+                    intent.setClass(applicationContext, SendSelectedItemActivity::class.java)
                     startActivity(intent)
                 }
             }
